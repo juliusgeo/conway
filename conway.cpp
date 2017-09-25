@@ -1,8 +1,4 @@
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv/cvaux.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-
 
 cv::Mat flatten(cv::Mat imarray){
 	for(int j=1;j<imarray.rows-1;j++)
@@ -31,7 +27,9 @@ cv::Mat update(cv::Mat imarray){
 			{
 				for (int y=0;y<3;y++)
 				{
-					if((int)imarray.at<uchar>(j-1+x,i-1+y)==0){count++;}
+					if((int)imarray.at<uchar>(j-1+x,i-1+y)==0 && (i!=1 && j!=1)){
+						count++;
+					}
 
 				}
 			}
@@ -62,8 +60,8 @@ int main()
 	cv::cvtColor(colorMat, imarray, cv::COLOR_BGR2GRAY);
 	imarray=flatten(imarray);
 	cv::imshow("Conway's game of life",imarray);
-	cv::waitKey(3000);
-	int numgens=200;
+	cv::waitKey(2000);
+	int numgens=1000;
 	for(int i=0;i<numgens; i++){
 		imarray=update(imarray);
 		cv::imshow("Conway's game of life",imarray);
